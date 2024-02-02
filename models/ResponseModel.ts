@@ -19,3 +19,8 @@ export interface ErrorResponse {
   errors: Error[];
   request_id: string;
 }
+
+export interface Action<S = 200, D = Object> {
+  status: S;
+  data: D;
+}
