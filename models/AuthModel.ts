@@ -24,6 +24,8 @@ export interface CookieResponse extends Response {
   data: CookieData | null;
 }
 
+export type CookiesStatus = "cookies_not_found" | "active_cookies_not_found";
+
 export interface ActiveCookies {
   created_at: string;
   value: string;

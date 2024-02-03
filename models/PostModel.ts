@@ -1,4 +1,5 @@
 import type { Picture } from "./PictureModel";
+import type { Response } from "./ResponseModel";
 
 export interface Post {
   id: number;
@@ -7,3 +8,5 @@ export interface Post {
   price: string;
   picsUrl: Picture[];
 }
+
+export type PostsResponse = Response<Post[]>;
