@@ -9,6 +9,7 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error"],
-    "max-params": ["error", 5]
+    "max-params": ["error", 5],
+    "@typescript-eslint/prefer-for-of": "off"
   }
 }

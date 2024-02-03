@@ -14,30 +14,27 @@ export const postsUp = async (
 
   const headers = getAuthHeaders(cookies);
 
-  const deactivateRequests = [];
-  const activateRequests = [];
-  for (const post of posts) {
-    deactivateRequests.push(
-      fetch(
+  try {
+    console.info("[POSTS_UP]: starting");
+    for (let i = 0; i < posts.length; i++) {
+      const post = posts[i];
+      const index = i + 1;
+
+      await fetch(
         `${API_URL}/v3/status?action=deactivate&postId=${post.id}&reason_code=310`,
         {
           headers,
           cache: "no-cache",
         },
-      ).then((i) => i.json()),
-    );
-    activateRequests.push(
-      fetch(`${API_URL}/v3/status?action=activate&postId=${post.id}`, {
+      );
+      console.info(`[POSTS_UP_${index}]: deactivate ${post.id} complete`);
+
+      await fetch(`${API_URL}/v3/status?action=activate&postId=${post.id}`, {
         headers,
         cache: "no-cache",
-      }).then((i) => i.json()),
-    );
-  }
-
-  try {
-    console.info("[POSTS_UP]: request");
-    await Promise.all(deactivateRequests);
-    await Promise.all(activateRequests);
+      });
+      console.info(`[POSTS_UP_${index}]: activate ${post.id} complete`);
+    }
   } catch (error) {
     console.error("[POSTS_UP]: error", error);
     return "up_error";
