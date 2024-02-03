@@ -1,8 +1,9 @@
-import { getActiveCookies } from "@/lib/auth";
-import { API_URL } from "@/lib/constants";
-import { getAuthHeaders } from "@/lib/headers";
+"use server";
+
+import { getPosts } from "@/requests/posts";
 import type { Post } from "@/models/PostModel";
 import type { Action } from "@/models/ResponseModel";
+import { getActiveCookies } from "@/requests/cookies";
 
 type SuccessfulResponse = Post[];
 
@@ -12,26 +13,17 @@ interface FailedResponse {
 
 type Response = Action<200, SuccessfulResponse> | Action<400, FailedResponse>;
 
-export const getPosts = async (
-  type = "active",
-  limit = 20,
-  offset = 0,
-): Promise<Response> => {
+export const getActivePosts = async (): Promise<Response> => {
   try {
     const cookies = await getActiveCookies();
-    if (!cookies)
+    if (!cookies) {
       return { status: 400, data: { message: "Необходимо авторизоваться" } };
-    const headers = getAuthHeaders(cookies.value);
-    const response = await fetch(
-      `${API_URL}/v4/profile/posts/${type}?limit=${limit}&offset=${offset}`,
-      {
-        headers,
-        cache: "no-cache",
-      },
-    );
-    const data = await response.json();
-    if (!response.ok) return { status: 400, data };
-    return { status: 200, data };
+    }
+    const posts = await getPosts(cookies.value);
+    if (posts.result === "error") {
+      return { status: 400, data: { message: "Не удалось получить посты" } };
+    }
+    return { status: 200, data: posts.data };
   } catch (error) {
     return {
       status: 400,
