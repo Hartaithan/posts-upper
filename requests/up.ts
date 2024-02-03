@@ -1,4 +1,4 @@
-import { API_URL } from "@/lib/constants";
+import { POSTS_URL } from "@/lib/constants";
 import { getAuthHeaders } from "@/lib/headers";
 import type { Post } from "@/models/PostModel";
 import type { PostsUpStatus } from "@/models/UpModel";
@@ -6,13 +6,13 @@ import type { PostsUpStatus } from "@/models/UpModel";
 export const postUp = async (cookies: string, post: Post, index: number) => {
   const headers = getAuthHeaders(cookies);
   await fetch(
-    `${API_URL}/v3/status?action=deactivate&postId=${post.id}&reason_code=310`,
+    `${POSTS_URL}/v3/status?action=deactivate&postId=${post.id}&reason_code=310`,
     {
       headers,
       cache: "no-cache",
     },
   );
-  await fetch(`${API_URL}/v3/status?action=activate&postId=${post.id}`, {
+  await fetch(`${POSTS_URL}/v3/status?action=activate&postId=${post.id}`, {
     headers,
     cache: "no-cache",
   });

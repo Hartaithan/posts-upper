@@ -1,6 +1,6 @@
 import type { PostsResponse } from "@/models/PostModel";
 import { getAuthHeaders } from "../lib/headers";
-import { API_URL } from "../lib/constants";
+import { POSTS_URL } from "../lib/constants";
 
 export const getPosts = async (
   cookies: string,
@@ -14,7 +14,7 @@ export const getPosts = async (
     console.info("[GET_POSTS]: request");
     const headers = getAuthHeaders(cookies);
     const response = await fetch(
-      `${API_URL}/v4/profile/posts/${type}?limit=${limit}&offset=${offset}`,
+      `${POSTS_URL}/v4/profile/posts/${type}?limit=${limit}&offset=${offset}`,
       {
         headers,
         cache: "no-cache",
