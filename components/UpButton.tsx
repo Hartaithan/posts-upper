@@ -3,6 +3,7 @@
 import { manualUp } from "@/actions/manual-up";
 import type { FC } from "react";
 import { useState, useTransition } from "react";
+import Toast from "./Toast";
 
 const UpButton: FC = () => {
   const [isPending, startTransition] = useTransition();
@@ -42,7 +43,7 @@ const UpButton: FC = () => {
         )}
         {isPending ? "Pending..." : "Manual up!"}
       </button>
-      {message && <p>{message}</p>}
+      {message && <Toast message={message} setMessage={setMessage} />}
     </>
   );
 };
