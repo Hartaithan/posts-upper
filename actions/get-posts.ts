@@ -17,18 +17,18 @@ export const getActivePosts = async (): Promise<Response> => {
   try {
     const cookies = await getActiveCookies();
     if (!cookies) {
-      return { status: 400, data: { message: "Необходимо авторизоваться" } };
+      return { status: 400, data: { message: "Unauthorized" } };
     }
     const posts = await getPosts(cookies.value);
     if (posts.result === "error") {
-      return { status: 400, data: { message: "Не удалось получить посты" } };
+      return { status: 400, data: { message: "Unable to get posts" } };
     }
     return { status: 200, data: posts.data };
   } catch (error) {
     return {
       status: 400,
       data: {
-        message: "Неизвестная ошибка",
+        message: "Something went wrong...",
       },
     };
   }

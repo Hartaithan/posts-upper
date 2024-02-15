@@ -10,7 +10,7 @@ export const GET = async (): Promise<NextResponse<UpResponse>> => {
   const cookies = await getActiveCookies();
   if (cookies === null) {
     return NextResponse.json(
-      { message: "Не удалось получить куки!", status: "cookies_not_found" },
+      { message: "Cookies not found!", status: "cookies_not_found" },
       { status: 400 },
     );
   }
@@ -18,7 +18,7 @@ export const GET = async (): Promise<NextResponse<UpResponse>> => {
   const posts = await getPosts(cookies.value);
   if (posts.result === "error") {
     return NextResponse.json(
-      { message: "Не удалось получить посты!", status: "get_posts_error" },
+      { message: "Unable to get posts!", status: "get_posts_error" },
       { status: 400 },
     );
   }
@@ -26,25 +26,25 @@ export const GET = async (): Promise<NextResponse<UpResponse>> => {
   const upStatus = await postsUp(posts.data, cookies.value);
   if (upStatus === "up_empty") {
     return NextResponse.json(
-      { message: "Нет активных постов!", status: upStatus },
+      { message: "No active posts!", status: upStatus },
       { status: 200 },
     );
   }
   if (upStatus === "up_completed") {
     return NextResponse.json(
-      { message: "Посты успешно подняты!", status: upStatus },
+      { message: "Posts successfully updated!", status: upStatus },
       { status: 200 },
     );
   }
   if (upStatus === "up_error") {
     return NextResponse.json(
-      { message: "Не удалось поднять посты!", status: upStatus },
+      { message: "Unable to update posts!", status: upStatus },
       { status: 400 },
     );
   }
 
   return NextResponse.json(
-    { message: "Что-то пошло не так!", status: "unknown" },
+    { message: "Something went wrong...", status: "unknown" },
     { status: 400 },
   );
 };
